@@ -1,10 +1,8 @@
-{-# LANGUAGE FlexibleContexts #-}
-
 doble x = 2 * x
 
 suma x y = x + y
 
-normalVectorial x1 x2 = sqrt (x1^2) (x2^2)
+normalVectorial x1 x2 = sqrt ((x1^2) + (x2^2))
 
 funcionConstante8 _ = 8
 
