@@ -1,3 +1,4 @@
+import Clase01(digitoUnidades, digitoDecenas)
 fib :: Int -> Int
 fib 0 = 0
 fib 1 = 1
@@ -26,8 +27,8 @@ cantidadDeDigitos n = 1 + cantidadDeDigitos (div n 10)
 
 sumaDigitos :: Int -> Int
 sumaDigitos n | cantidadDeDigitos n == 1 = n
-sumaDigitos n = div n (10^((cantidadDeDigitos n) - 1)) + sumaDigitos (mod n 10)
+sumaDigitos n = digitoDecenas n (10^((cantidadDeDigitos n) - 1)) + sumaDigitos (digitoUnidades n)
 
 digitosIguales :: Int -> Bool
 digitosIguales n | cantidadDeDigitos n == 1 = True
-digitosIguales n = div n (10^((cantidadDeDigitos n) - 1)) == sumaDigitos (mod n 10)
+digitosIguales n = digitoDecenas n (10^((cantidadDeDigitos n) - 1)) == sumaDigitos (digitoUnidades n)
