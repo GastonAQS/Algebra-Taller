@@ -30,5 +30,6 @@ sumaDigitos n | cantidadDeDigitos n == 1 = n
 sumaDigitos n = digitoDecenas n (10^((cantidadDeDigitos n) - 1)) + sumaDigitos (digitoUnidades n)
 
 digitosIguales :: Int -> Bool
-digitosIguales n | cantidadDeDigitos n == 1 = True
-digitosIguales n = digitoDecenas n (10^((cantidadDeDigitos n) - 1)) == sumaDigitos (digitoUnidades n)
+digitosIguales n | digitoUnidades n ==  (digitoUnidades (digitoDecenas n 10)) = digitosIguales (digitoDecenas n 10)
+digitosIguales n | n < 10 = True
+digitosIguales _ = False
