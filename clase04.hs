@@ -44,6 +44,15 @@ sumaRacionales :: Int -> Int -> Float
 sumaRacionales n 0 = 0
 sumaRacionales n m = (fromIntegral (sumatoria n))/(fromIntegral m) + sumaRacionales n (m-1)
 
-tarea4 :: Int -> Int -> Int
-tarea4 i n | i==n = 0
-tarea4 i n = i^i + tarea4 i (n-1)
+g1 :: Int -> Int -> Int
+g1 i n | n < i = 0
+g1 i n = n^n + g1 i (n-1)
+
+g2 :: Int -> Int
+g2 0 = 0
+g2 n = (sumatoria n)^n + g2 (n-1)
+
+g3 :: Int -> Int
+g3 0 = 1
+g3 n | rem n 2 == 0 = 2^n + g3 (n-1)
+g3 n = g3 (n-1)
