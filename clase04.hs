@@ -1,3 +1,5 @@
+import Clase03(digitosIguales)
+
 sumatoria :: Int -> Int
 sumatoria 0 = 0
 sumatoria n = n + sumatoria (n-1)
@@ -56,3 +58,8 @@ g3 :: Int -> Int
 g3 0 = 1
 g3 n | rem n 2 == 0 = 2^n + g3 (n-1)
 g3 n = g3 (n-1)
+
+g4 :: Int -> Int
+g4 0 = 0
+g4 n | digitosIguales n = n + g4 (n-1)
+     | otherwise = g4 (n-1)
