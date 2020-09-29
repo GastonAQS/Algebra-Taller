@@ -89,3 +89,9 @@ tomaValorMaxDesde n2 k | sumaDivisores k > n2 = sumaDivisores (k-1)
 tomaValorMax :: Int -> Int -> Int
 tomaValorMax n1 n2 | tomaValorMaxDesde n2 1 > n1 = tomaValorMaxDesde n2 1
 
+tomaValorMinDesde :: Int -> Int -> Int
+tomaValorMinDesde n1 k | sumaDivisores k >= n1 = sumaDivisores k
+                       | otherwise = tomaValorMinDesde n1 (k+1)
+
+tomaValorMin :: Int -> Int -> Int
+tomaValorMin n1 n2 | tomaValorMinDesde n1 1 > n1 = tomaValorMinDesde n1 1
