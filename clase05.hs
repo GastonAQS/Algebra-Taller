@@ -1,3 +1,5 @@
+import Clase03(fib)
+
 prod :: Int -> Int -> Int
 prod d h | d == h = d
 prod d h = h*(prod d (h-1))
@@ -51,3 +53,39 @@ menorFactorialMayor n = menorFactorialDesde 1 n
 
 mayorFactorialMenor :: Int -> Int
 mayorFactorialMenor n = menorFactorialHasta 1 n
+
+esFactDesde :: Int -> Int -> Bool
+esFactDesde n k | factorial n == k = True
+                | factorial n > k = False
+                | otherwise = esFactDesde (n+1) k
+
+esFact :: Int -> Bool
+esFact n = esFactDesde 1 n
+
+esFibonacciHasta :: Int -> Int -> Bool
+esFibonacciHasta n k | fib n == k = True
+                     | fib n > k = False
+                     | otherwise = esFibonacciHasta (n+1) k
+
+esFibonacci :: Int -> Bool
+esFibonacci n = esFibonacciHasta 1 n
+
+sumaDeNPrimos :: Int -> Int
+sumaDeNPrimos 0 = 0
+sumaDeNPrimos n = nEsimoPrimo n + sumaDeNPrimos (n-1)
+
+esSumaInicialDePrimosHasta :: Int -> Int -> Bool
+esSumaInicialDePrimosHasta n k | sumaDeNPrimos n == k = True 
+                               | sumaDeNPrimos n > k = False
+                               | otherwise = esSumaInicialDePrimosHasta (n+1) k
+
+esSumaInicialDePrimos :: Int -> Bool
+esSumaInicialDePrimos n = esSumaInicialDePrimosHasta 1 n
+
+tomaValorMaxDesde :: Int -> Int -> Int
+tomaValorMaxDesde n2 k | sumaDivisores k > n2 = sumaDivisores (k-1)
+                       | otherwise = tomaValorMaxDesde n2 (k+1)
+
+tomaValorMax :: Int -> Int -> Int
+tomaValorMax n1 n2 | tomaValorMaxDesde n2 1 > n1 = tomaValorMaxDesde n2 1
+
