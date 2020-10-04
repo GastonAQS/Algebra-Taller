@@ -95,3 +95,13 @@ tomaValorMinDesde n1 k | sumaDivisores k >= n1 = sumaDivisores k
 
 tomaValorMin :: Int -> Int -> Int
 tomaValorMin n1 n2 | tomaValorMinDesde n1 1 > n1 = tomaValorMinDesde n1 1
+
+
+-- esSumaDeDosPrimos :: Int -> Bool
+
+pares :: Int -> [(Int, Int)]
+pares n = [(x,y) | x <- [1..n-2], y <- [x..n-2], esPrimo x, esPrimo y, x+y == n]
+
+
+goldbach :: Int -> Bool
+goldbach n | n < 2 || rem n 2 /= 0 = False
