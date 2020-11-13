@@ -1,12 +1,8 @@
 -- Auxiliares
-seRepiteNenL :: Int -> [Int] -> Bool
-seRepiteNenL _ [] = False
-seRepiteNenL n (x:xs) | n == x = True
-                    | otherwise = seRepiteNenL n xs
 
 hayRepetidos :: [Int] -> Bool
 hayRepetidos [] = False
-hayRepetidos (x:xs) = seRepiteNenL x xs || hayRepetidos xs
+hayRepetidos (x:xs) = elem x xs || hayRepetidos xs
 
 aux :: [Int] -> Bool
 aux [] = True
@@ -15,7 +11,7 @@ aux (x:y:xs) = sonClub x y && aux xs
 
 eliminarRepetidosAlFinal :: [Int] -> [Int]
 eliminarRepetidosAlFinal [] = []
-eliminarRepetidosAlFinal (x:xs) | seRepiteNenL x xs = x:eliminarRepetidosAlFinal (quitarTodas x xs)
+eliminarRepetidosAlFinal (x:xs) | x `elem` xs = x:eliminarRepetidosAlFinal (quitarTodas x xs)
                                 | otherwise = x:eliminarRepetidosAlFinal xs
 
 quitarTodas :: Int -> [Int] -> [Int]
@@ -23,8 +19,15 @@ quitarTodas _ [] = []
 quitarTodas n (x:xs) | n == x = quitarTodas n xs
                     | otherwise = x:quitarTodas n xs
 
+removerListaDeLista :: [Int] -> [[Int]] -> [[Int]]
+removerListaDeLista l [] = []
+removerListaDeLista l (x:xs) | l == x = xs
+                             | otherwise = x:removerListaDeLista l xs
 
-
+quitarElemInverso :: [[Int]] -> [[Int]]
+quitarElemInverso [] = []
+quitarElemInverso (x:xs) | reverse x `elem` xs = x:quitarElemInverso (removerListaDeLista (reverse x) xs)
+                         | otherwise = x:quitarElemInverso xs
 
 --
 
@@ -47,7 +50,6 @@ listaAlicuotaDeNDeLargo n k = k:listaAlicuotaDeNDeLargo (n-1) (sumaDeDivisoresPr
 sonSociables :: [Int] -> Bool
 sonSociables l = not (hayRepetidos l) && sonClub (last l) (head l) && aux l
 
-
 sonClub :: Int -> Int -> Bool
 sonClub n k = sumaDeDivisoresPropios n == k
 
@@ -56,14 +58,14 @@ minimosDeKClubesMenoresQue k c = eliminarRepetidosAlFinal (minimosDeKClubesMenor
 
 minimosDeKClubesMenoresQueDesde :: Int -> Int -> Int -> [Int]
 minimosDeKClubesMenoresQueDesde n k c | n == c = []
-minimosDeKClubesMenoresQueDesde n k c | sonSociables (listaAlicuotaDeNDeLargo k n) = minimum (listaAlicuotaDeNDeLargo k n):minimosDeKClubesMenoresQueDesde (n+1) k c
-                               | otherwise = minimosDeKClubesMenoresQueDesde (n+1) k c
+minimosDeKClubesMenoresQueDesde n k c | sonSociables (listaAlicuotaDeNDeLargo k n) && minimum (listaAlicuotaDeNDeLargo k n) <= c = minimum (listaAlicuotaDeNDeLargo k n):minimosDeKClubesMenoresQueDesde (n+1) k c
+                                      | otherwise = minimosDeKClubesMenoresQueDesde (n+1) k c
 
 listaDeNClubesConNrosMenoresQue :: Int -> Int -> [[Int]]
-listaDeNClubesConNrosMenoresQue n k =  listaDeNClubesConNrosMenoresQueDesde 1 n k
+listaDeNClubesConNrosMenoresQue n k = quitarElemInverso (listaDeNClubesConNrosMenoresQueDesde 1 n k)
 
 listaDeNClubesConNrosMenoresQueDesde :: Int -> Int -> Int -> [[Int]]
 listaDeNClubesConNrosMenoresQueDesde t n k | t == k = []
-listaDeNClubesConNrosMenoresQueDesde t n k | sonSociables (listaAlicuotaDeNDeLargo n t) = listaAlicuotaDeNDeLargo n t:listaDeNClubesConNrosMenoresQueDesde (t+1) n k
+listaDeNClubesConNrosMenoresQueDesde t n k | sonSociables (listaAlicuotaDeNDeLargo n t) && last (listaAlicuotaDeNDeLargo n t) < k = listaAlicuotaDeNDeLargo n t:listaDeNClubesConNrosMenoresQueDesde (t+1) n k
                                            | otherwise = listaDeNClubesConNrosMenoresQueDesde (t+1) n k
 

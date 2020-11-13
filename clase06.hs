@@ -40,7 +40,7 @@ where
     quitarTodas :: Int -> [Int] -> [Int]
     quitarTodas _ [] = []
     quitarTodas n (x:xs) | n == x = quitarTodas n xs
-                        | otherwise = x:(quitarTodas n xs)
+                        | otherwise = x:quitarTodas n xs
 
     seRepiteNenL :: Int -> [Int] -> Bool
     seRepiteNenL _ [] = False
