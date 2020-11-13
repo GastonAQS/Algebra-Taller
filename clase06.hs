@@ -53,7 +53,7 @@ where
 
     eliminarRepetidosAlFinal :: [Int] -> [Int]
     eliminarRepetidosAlFinal [] = []
-    eliminarRepetidosAlFinal (x:xs) | seRepiteNenL x xs = x:(eliminarRepetidosAlFinal (quitarTodas x xs))
+    eliminarRepetidosAlFinal (x:xs) | seRepiteNenL x xs = x:eliminarRepetidosAlFinal (quitarTodas x xs)
                                     | otherwise = x:eliminarRepetidosAlFinal xs
 
     eliminarRepetidosAlInicio :: [Int] -> [Int]
