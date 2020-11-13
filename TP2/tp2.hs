@@ -1,13 +1,13 @@
--- Auxiliares
+-- Funciones Auxiliares
 
 hayRepetidos :: [Int] -> Bool
 hayRepetidos [] = False
 hayRepetidos (x:xs) = elem x xs || hayRepetidos xs
 
-aux :: [Int] -> Bool
-aux [] = True
-aux [_] = True
-aux (x:y:xs) = sonClub x y && aux xs
+esListaSociable :: [Int] -> Bool
+esListaSociable [] = True
+esListaSociable [_] = True
+esListaSociable (x:y:xs) = coincidenDivisores x y && esListaSociable xs
 
 eliminarRepetidosAlFinal :: [Int] -> [Int]
 eliminarRepetidosAlFinal [] = []
@@ -20,7 +20,7 @@ quitarTodas n (x:xs) | n == x = quitarTodas n xs
                     | otherwise = x:quitarTodas n xs
 
 removerListaDeLista :: [Int] -> [[Int]] -> [[Int]]
-removerListaDeLista l [] = []
+removerListaDeLista _ [] = []
 removerListaDeLista l (x:xs) | l == x = xs
                              | otherwise = x:removerListaDeLista l xs
 
@@ -48,16 +48,16 @@ listaAlicuotaDeNDeLargo 0 _ = []
 listaAlicuotaDeNDeLargo n k = k:listaAlicuotaDeNDeLargo (n-1) (sumaDeDivisoresPropios k)
 
 sonSociables :: [Int] -> Bool
-sonSociables l = not (hayRepetidos l) && sonClub (last l) (head l) && aux l
+sonSociables l = not (hayRepetidos l) && coincidenDivisores (last l) (head l) && esListaSociable l
 
-sonClub :: Int -> Int -> Bool
-sonClub n k = sumaDeDivisoresPropios n == k
+coincidenDivisores :: Int -> Int -> Bool
+coincidenDivisores n k = sumaDeDivisoresPropios n == k
 
 minimosDeKClubesMenoresQue :: Int -> Int -> [Int]
 minimosDeKClubesMenoresQue k c = eliminarRepetidosAlFinal (minimosDeKClubesMenoresQueDesde 1 k c)
 
 minimosDeKClubesMenoresQueDesde :: Int -> Int -> Int -> [Int]
-minimosDeKClubesMenoresQueDesde n k c | n == c = []
+minimosDeKClubesMenoresQueDesde n _ c | n == c = []
 minimosDeKClubesMenoresQueDesde n k c | sonSociables (listaAlicuotaDeNDeLargo k n) && minimum (listaAlicuotaDeNDeLargo k n) <= c = minimum (listaAlicuotaDeNDeLargo k n):minimosDeKClubesMenoresQueDesde (n+1) k c
                                       | otherwise = minimosDeKClubesMenoresQueDesde (n+1) k c
 
@@ -65,7 +65,7 @@ listaDeNClubesConNrosMenoresQue :: Int -> Int -> [[Int]]
 listaDeNClubesConNrosMenoresQue n k = quitarElemInverso (listaDeNClubesConNrosMenoresQueDesde 1 n k)
 
 listaDeNClubesConNrosMenoresQueDesde :: Int -> Int -> Int -> [[Int]]
-listaDeNClubesConNrosMenoresQueDesde t n k | t == k = []
+listaDeNClubesConNrosMenoresQueDesde t _ k | t == k = []
 listaDeNClubesConNrosMenoresQueDesde t n k | sonSociables (listaAlicuotaDeNDeLargo n t) && last (listaAlicuotaDeNDeLargo n t) < k = listaAlicuotaDeNDeLargo n t:listaDeNClubesConNrosMenoresQueDesde (t+1) n k
                                            | otherwise = listaDeNClubesConNrosMenoresQueDesde (t+1) n k
 
